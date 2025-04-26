@@ -140,7 +140,7 @@
       "tell me a joke": "Why don’t scientists trust atoms? Because they make up everything!",
       "tell me a meme": "Why don’t skeletons fight each other? They don’t have the guts!",
       "what up dude": "Yo! What's up, dude? Ready to assist!",
-      "give me your introduction": "Hi I am Vora, Developed By the Vora Project Team.",
+      "give me your introduction":"Hi I am Vora, Developed By the Vora Project Team: DIPAN PANDEYA, KRISH PAUDEL , NAKUL GIRI , KRISH SHARMA , MUSKAN THAPA MAGAR , DIPSON RIJAL",
       "what is the capital of japan": "The capital of Japan is Tokyo.",
       "what is the capital of nepal": "The capital of Nepal is Kathmandu.",
       "define democracy": "Democracy is a system of government by the whole population, usually through elected representatives.",
@@ -186,7 +186,7 @@
     function speak(text) {
       window.speechSynthesis.cancel();
       const utterance = new SpeechSynthesisUtterance(text);
-      utterance.rate = 1.5;
+      utterance.rate = 1.2;
       utterance.pitch = 1;
       utterance.volume = 1;
       utterance.voice = speechSynthesis.getVoices().find(v => v.lang === 'en-US') || null;
