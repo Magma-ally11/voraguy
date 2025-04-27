@@ -3,108 +3,120 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vora Voice Assistant</title>
+  <title>VORA Voice Assistant</title>
   <link rel="icon" href="Avatar.png" type="image/png" />
   <style>
     * {
       box-sizing: border-box;
     }
     body, html {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    font-family: Arial, sans-serif;
-    overflow: auto; 
-  }
-  #backgroundVideo {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: -1;
-    filter: brightness(0.3);
-  }
-  #mainContainer {
-    min-height: 100vh;
-    width: 100%;
-    text-align: center;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start; 
-    align-items: center;
-    padding: 40px 20px 80px 20px; 
-  }
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      font-family: 'Poppins', sans-serif;
+      overflow: auto;
+      background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+    }
+    #backgroundVideo {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+  filter: brightness(0.3) blur(2px);
+  pointer-events: none;
+}
+
+    #mainContainer {
+      min-height: 100vh;
+      width: 100%;
+      text-align: center;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      padding: 40px 20px 80px 20px;
+      backdrop-filter: blur(8px);
+    }
+    h1 {
+      font-size: 3rem;
+      margin-top: 20px;
+      letter-spacing: 2px;
+      text-shadow: 2px 2px 5px rgba(255,255,255,0.2);
+    }
     #avatar {
-      width: 150px;
-      height: 150px;
+      width: 160px;
+      height: 160px;
       border-radius: 50%;
-      margin: 20px auto;
-      box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
-      display: block;
+      margin: 20px 0;
+      box-shadow: 0 0 30px rgba(255, 255, 255, 0.4);
       animation: pulseGlow 2s infinite;
       transition: transform 0.3s ease;
     }
     @keyframes pulseGlow {
-      0% { box-shadow: 0 0 20px rgba(255, 255, 255, 0.3); }
-      50% { box-shadow: 0 0 30px rgba(255, 255, 255, 0.6); }
-      100% { box-shadow: 0 0 20px rgba(255, 255, 255, 0.3); }
-    }
-    .wave {
-      animation: wave 0.6s ease-in-out infinite alternate;
-    }
-    @keyframes wave {
-      0% { transform: rotate(0deg) scale(1); }
-      50% { transform: rotate(3deg) scale(1.05); }
-      100% { transform: rotate(-3deg) scale(1); }
+      0% { box-shadow: 0 0 20px rgba(255,255,255,0.3); }
+      50% { box-shadow: 0 0 40px rgba(255,255,255,0.6); }
+      100% { box-shadow: 0 0 20px rgba(255,255,255,0.3); }
     }
     #inputBox {
       width: 80%;
-      max-width: 300px;
-      padding: 10px;
+      max-width: 320px;
+      padding: 12px;
       font-size: 16px;
-      background-color: #333;
-      border: 1px solid #fff;
+      background-color: #222;
+      border: 2px solid #555;
+      border-radius: 10px;
       color: white;
       margin: 20px auto;
       display: block;
+      outline: none;
     }
-    #askButton, #microphoneButton {
-      padding: 10px 20px;
-      background-color: #444;
-      color: #fff;
-      border: 1px solid #fff;
+    #askButton, #microphoneButton, #feedbackButton {
+      padding: 12px 24px;
+      background: linear-gradient(90deg, #ff416c, #ff4b2b);
+      color: white;
+      border: none;
+      border-radius: 30px;
       cursor: pointer;
       font-size: 16px;
-      margin: 10px;
+      margin: 10px 5px;
+      transition: background 0.3s ease;
+    }
+    #askButton:hover, #microphoneButton:hover, #feedbackButton:hover {
+      background: linear-gradient(90deg, #ff4b2b, #ff416c);
     }
     #response {
       margin-top: 30px;
       font-size: 18px;
       color: white;
       padding: 0 10px;
+      max-width: 700px;
     }
     @media (max-width: 600px) {
-      #avatar { width: 100px; height: 100px; }
-      #inputBox, #askButton, #microphoneButton { width: 90%; font-size: 16px; }
+      h1 { font-size: 2.2rem; }
+      #avatar { width: 120px; height: 120px; }
+      #inputBox, #askButton, #microphoneButton, #feedbackButton { width: 90%; font-size: 16px; }
       #response { font-size: 16px; }
     }
     @media (min-width: 1024px) {
+      h1 { font-size: 4rem; }
       #avatar { width: 180px; height: 180px; }
       #inputBox { font-size: 18px; }
-      #askButton, #microphoneButton { font-size: 18px; padding: 12px 25px; }
+      #askButton, #microphoneButton, #feedbackButton { font-size: 18px; }
       #response { font-size: 20px; }
     }
   </style>
 </head>
 <body>
-  <video id="backgroundVideo" autoplay muted loop>
+  <video id="backgroundVideo" autoplay muted loop playsinline>
     <source src="black-theme-loop.mp4" type="video/mp4" />
     Your browser does not support the video tag.
   </video>
+  
 
   <div id="mainContainer">
     <h1>VORA</h1>
@@ -112,6 +124,7 @@
     <input type="text" id="inputBox" placeholder="Ask something..." />
     <button id="askButton">ASK</button>
     <button id="microphoneButton">Speak</button>
+    <button id="feedbackButton">Feedback</button>
     <div id="response"></div>
   </div>
 
@@ -180,125 +193,129 @@
       "define artificial intelligence": "Artificial intelligence refers to the simulation of human intelligence in machines programmed to think like humans.",
       "define virtual reality": "Virtual reality (VR) is an immersive, computer-generated environment that simulates real or imagined worlds.",
       "what is the meaning of life": "The meaning of life is a philosophical question regarding the purpose or significance of life or existence in general."
-      
+
     };
   
     function speak(text) {
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.rate = 1.2;
-      utterance.pitch = 1;
-      utterance.volume = 1;
-      utterance.voice = speechSynthesis.getVoices().find(v => v.lang === 'en-US') || null;
-      speechSynthesis.speak(utterance);
+    window.speechSynthesis.cancel(); // Cancel any previous speech
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.rate = 1.2;
+    utterance.pitch = 1;
+    utterance.volume = 1;
+    utterance.voice = speechSynthesis.getVoices().find(v => v.lang.startsWith('en')) || null;
+    speechSynthesis.speak(utterance);
+  }
+
+  function typeAnswer(text) {
+    const responseDiv = document.getElementById('response');
+    responseDiv.textContent = text;
+    speak(text);
+  }
+
+  function getCleanedInput(input) {
+    return input.trim().toLowerCase().replace(/[?.!,]/g, '');
+  }
+
+  async function fetchWikipediaSummary(query) {
+    const apiUrl = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(query)}`;
+    try {
+      const res = await fetch(apiUrl);
+      const data = await res.json();
+      if (data.extract) return data.extract;
+    } catch (err) {
+      console.warn("Wikipedia lookup failed:", err);
     }
-  
-    function typeAnswer(text) {
-      const responseDiv = document.getElementById('response');
-      responseDiv.textContent = text;
-      speak(text);
-    }
-  
-    function getCleanedInput(input) {
-      return input.trim().toLowerCase().replace(/[?.!,]/g, '');
-    }
-  
-    async function fetchWikipediaSummary(query) {
-      const apiUrl = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(query)}`;
-      try {
-        const res = await fetch(apiUrl);
-        const data = await res.json();
-        if (data.extract) return data.extract;
-      } catch (err) {
-        console.warn("Wikipedia lookup failed:", err);
+    return null;
+  }
+
+  function tryMath(input) {
+    const mathFriendly = input
+      .replace(/plus/g, '+')
+      .replace(/minus/g, '-')
+      .replace(/times|multiplied by/g, '*')
+      .replace(/divided by|over/g, '/')
+      .replace(/[^0-9+\-*/(). ]/g, '');
+    try {
+      const result = eval(mathFriendly);
+      if (!isNaN(result)) {
+        return `The answer is ${result}`;
       }
-      return null;
-    }
-  
-    function tryMath(input) {
-      const mathFriendly = input
-        .replace(/plus/g, '+')
-        .replace(/minus/g, '-')
-        .replace(/times|multiplied by/g, '*')
-        .replace(/divided by|over/g, '/')
-        .replace(/[^0-9+\-*/(). ]/g, '');
-      try {
-        const result = eval(mathFriendly);
-        if (!isNaN(result)) {
-          return `The answer is ${result}`;
-        }
-      } catch {}
-      return null;
-    }
-  
-    async function handleUserInput(input) {
-  const cleaned = getCleanedInput(input);
-
-  const siteCommands = {
-    "open youtube": "https://www.youtube.com",
-    "open facebook": "https://www.facebook.com",
-    "open google": "https://www.google.com",
-    "open twitter": "https://www.twitter.com",
-    "open instagram": "https://www.instagram.com",
-    "open gmail": "https://mail.google.com",
-    "open wikipedia": "https://www.wikipedia.org"
-  };
-
-  if (siteCommands[cleaned]) {
-    typeAnswer(`Opening ${cleaned.split(" ")[1]}...`);
-    window.open(siteCommands[cleaned], "_blank");
-    return;
+    } catch {}
+    return null;
   }
 
-  const mathResult = tryMath(cleaned);
-  if (mathResult) return typeAnswer(mathResult);
+  async function handleUserInput(input) {
+    const cleaned = getCleanedInput(input);
 
-  if (responses.hasOwnProperty(cleaned)) {
-    const response = typeof responses[cleaned] === 'function' ? responses[cleaned]() : responses[cleaned];
-    return typeAnswer(response);
+    const siteCommands = {
+      "open youtube": "https://www.youtube.com",
+      "open facebook": "https://www.facebook.com",
+      "open google": "https://www.google.com",
+      "open twitter": "https://www.twitter.com",
+      "open instagram": "https://www.instagram.com",
+      "open gmail": "https://mail.google.com",
+      "open wikipedia": "https://www.wikipedia.org",
+      "open feedback": "https://feedbackvora.staticrun.app"
+    };
+
+    if (siteCommands[cleaned]) {
+      typeAnswer(`Opening ${cleaned.split(" ")[1]}...`);
+      window.open(siteCommands[cleaned], "_blank");
+      return;
+    }
+
+    const mathResult = tryMath(cleaned);
+    if (mathResult) return typeAnswer(mathResult);
+
+    if (responses.hasOwnProperty(cleaned)) {
+      const response = typeof responses[cleaned] === 'function' ? responses[cleaned]() : responses[cleaned];
+      return typeAnswer(response);
+    }
+
+    const wikiResponse = await fetchWikipediaSummary(cleaned);
+    if (wikiResponse) return typeAnswer(wikiResponse);
+
+    typeAnswer("Let me help you find that.");
+    window.open(`https://www.google.com/search?q=${encodeURIComponent(input)}`, "_blank");
   }
 
-  const wikiResponse = await fetchWikipediaSummary(cleaned);
-  if (wikiResponse) return typeAnswer(wikiResponse);
+  document.getElementById("askButton").addEventListener("click", () => {
+    const inputBox = document.getElementById("inputBox");
+    const userInput = inputBox.value;
+    inputBox.value = "";
+    handleUserInput(userInput);
+  });
 
-  typeAnswer("Let me help you find that.");
-  window.open(`https://www.google.com/search?q=${encodeURIComponent(input)}`, "_blank");
-}
+  document.getElementById("microphoneButton").addEventListener("click", () => {
+    console.log("Mic button clicked, stopping any current speech and starting recognition...");
+    
+    window.speechSynthesis.cancel(); // Immediately stop current speech
 
-  
-    document.getElementById("askButton").addEventListener("click", () => {
-      const inputBox = document.getElementById("inputBox");
-      const userInput = inputBox.value;
-      inputBox.value = "";
+    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+    recognition.lang = "en-US";
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+    recognition.start();
+
+    const avatar = document.getElementById("avatar");
+    avatar.classList.add("wave");
+
+    recognition.onresult = (event) => {
+      const userInput = event.results[0][0].transcript;
       handleUserInput(userInput);
-    });
-  
-    document.getElementById("microphoneButton").addEventListener("click", () => {
-      console.log("Mic button clicked, initializing recognition...");
-      const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-      recognition.lang = "en-US";
-      recognition.interimResults = false;
-      recognition.maxAlternatives = 1;
-      recognition.start();
-  
-      const avatar = document.getElementById("avatar");
-      avatar.classList.add("speaking");
-  
-      recognition.onresult = (event) => {
-        const userInput = event.results[0][0].transcript;
-        handleUserInput(userInput);
-      };
-  
-      recognition.onerror = (event) => {
-        console.error("Speech recognition error:", event.error);
-        speak("Oops, I didn't catch that. Try again?");
-      };
-  
-      recognition.onend = () => {
-        avatar.classList.remove("speaking");
-      };
-    });
-  
-    window.speechSynthesis.onvoiceschanged = () => {};
-  </script>
-  
+    };
+
+    recognition.onerror = (event) => {
+      console.error("Speech recognition error:", event.error);
+      speak("Oops, I didn't catch that. Try again?");
+    };
+
+    recognition.onend = () => {
+      avatar.classList.remove("wave");
+    };
+  });
+
+  window.speechSynthesis.onvoiceschanged = () => {};
+</script>
+</body>
+</html>
