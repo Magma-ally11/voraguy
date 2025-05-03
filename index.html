@@ -196,7 +196,7 @@
     };
   
     function speak(text) {
-    window.speechSynthesis.cancel(); // Cancel any previous speech
+    window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.rate = 1.2;
     utterance.pitch = 1;
@@ -285,34 +285,41 @@
     handleUserInput(userInput);
   });
 
-  document.getElementById("microphoneButton").addEventListener("click", () => {
-    console.log("Mic button clicked, stopping any current speech and starting recognition...");
-    
-    window.speechSynthesis.cancel(); // Immediately stop current speech
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
-    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+  if (SpeechRecognition) {
+    const recognition = new SpeechRecognition();
     recognition.lang = "en-US";
     recognition.interimResults = false;
     recognition.maxAlternatives = 1;
-    recognition.start();
 
-    const avatar = document.getElementById("avatar");
-    avatar.classList.add("wave");
+    document.getElementById("microphoneButton").addEventListener("click", () => {
+      window.speechSynthesis.cancel();
+      recognition.start();
 
-    recognition.onresult = (event) => {
-      const userInput = event.results[0][0].transcript;
-      handleUserInput(userInput);
-    };
+      const avatar = document.getElementById("avatar");
+      avatar.classList.add("wave");
 
-    recognition.onerror = (event) => {
-      console.error("Speech recognition error:", event.error);
-      speak("Oops, I didn't catch that. Try again?");
-    };
+      recognition.onresult = (event) => {
+        const userInput = event.results[0][0].transcript;
+        handleUserInput(userInput);
+      };
 
-    recognition.onend = () => {
-      avatar.classList.remove("wave");
-    };
-  });
+      recognition.onerror = (event) => {
+        console.error("Speech recognition error:", event.error);
+        speak("Oops, I didn't catch that. Try again?");
+      };
+
+      recognition.onend = () => {
+        avatar.classList.remove("wave");
+      };
+    });
+  } else {
+    document.getElementById("microphoneButton").addEventListener("click", () => {
+      speak("Voice input is not supported in this browser. Please use Google Chrome or Edge.");
+      alert("Voice input not supported in this browser. Try using Google Chrome or Edge.");
+    });
+  }
 
   window.speechSynthesis.onvoiceschanged = () => {};
 </script>
