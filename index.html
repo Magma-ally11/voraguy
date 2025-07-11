@@ -109,6 +109,46 @@
       #askButton, #microphoneButton, #feedbackButton { font-size: 18px; }
       #response { font-size: 20px; }
     }
+    #maintenancePopup {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 50vh;
+  background: rgba(10, 10, 10, 0.95);
+  color: white;
+  z-index: 9999;
+  pointer-events: all; /* prevent clicks through this area */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+  backdrop-filter: blur(8px);
+}
+
+#maintenancePopup .popupContent {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 30px 20px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+  width: 90%;
+  max-width: 700px;
+}
+
+#maintenancePopup h2 {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  color: #ff4b2b;
+}
+
+#maintenancePopup marquee {
+  font-size: 16px;
+  white-space: nowrap;
+  color: #fff;
+}
+
   </style>
 </head>
 <body>
@@ -119,6 +159,15 @@
   
 
   <div id="mainContainer">
+    <div id="maintenancePopup">
+      <div class="popupContent">
+        <h2>🚧 Server Maintenance 🚧</h2>
+        <marquee behavior="scroll" direction="left" scrollamount="6">
+          We are Under Maintenance. Please Visit our Main page for Updates Related to VORA. Thank you. As per The Commandment of Coder Dipan Pandeya.
+        </marquee>
+      </div>
+    </div>
+    
     <h1>VORA</h1>
     <img id="avatar" src="Avatar.png" alt="Vora Avatar">
     <input type="text" id="inputBox" placeholder="Ask something..." />
